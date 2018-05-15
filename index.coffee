@@ -61,8 +61,8 @@ module.exports.inputImagesToFormData = ({
         if makeFileName
             fileName = makeFileName(file)
         else if forceExtension
-            fPath = path.parse(file.name)
-            fileName = fPath.name + '.' + forceExtension
+            baseName = path.basename(file.name, path.extname(file.name))
+            fileName = baseName + '.' + forceExtension
         else
             fileName = file.filename
 
