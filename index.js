@@ -55,7 +55,8 @@
         results.push(loadImage(file, optsLoadImage).then(function (canvas) {
           return canvasToBlob(canvas, mimeType, qualityArgument);
         }).then(function (blob) {
-          return formData.append(formName, blob);
+          formData.append(formName, blob);
+          return blob;
         }));
       }
       return results;

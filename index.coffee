@@ -57,6 +57,7 @@ module.exports.inputImagesToFormData = ({
             canvasToBlob(canvas, mimeType, qualityArgument)
         ).then((blob) ->
             formData.append(formName, blob)
+            return blob
         )
 
     return Promise.all(promises)
