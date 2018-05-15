@@ -1,0 +1,32 @@
+{
+  "name": "@kynikos/image-helpers",
+  "version": "1.0.0",
+  "author": "Dario Giovannetti",
+  "description": "Image-manipulation helpers.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kynikos/lib.js.image-helpers.git"
+  },
+  "keywords": [
+    "image manipulation"
+  ],
+  "scripts": {
+    "compile": "coffee --compile --transpile index.coffee"
+  },
+  "dependencies": {
+    "blueimp-canvas-to-blob": "^3.14.0",
+    "blueimp-load-image": "^2.19.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "coffeelint": "^2.1.0",
+    "coffeescript": "^2.3.0"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  }
+}
