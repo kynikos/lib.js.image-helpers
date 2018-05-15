@@ -39,11 +39,15 @@
     var inputFile = _ref.inputFile,
         formData = _ref.formData,
         formName = _ref.formName,
+        _ref$makeFileName = _ref.makeFileName,
+        makeFileName = _ref$makeFileName === undefined ? function (file) {
+      return file.filename;
+    } : _ref$makeFileName,
         optsLoadImage = _ref.optsLoadImage,
         mimeType = _ref.mimeType,
         qualityArgument = _ref.qualityArgument;
 
-    var file, promises;
+    var file, fileName, promises;
     // canvasToBlob requires a canvas
     optsLoadImage.canvas = true;
     promises = function () {
@@ -52,12 +56,15 @@
       results = [];
       for (i = 0, len = ref.length; i < len; i++) {
         file = ref[i];
-        results.push(loadImage(file, optsLoadImage).then(function (canvas) {
-          return canvasToBlob(canvas, mimeType, qualityArgument);
-        }).then(function (blob) {
-          formData.append(formName, blob);
-          return blob;
-        }));
+        fileName = makeFileName(file);
+        results.push(function (fileName) {
+          return loadImage(file, optsLoadImage).then(function (canvas) {
+            return canvasToBlob(canvas, mimeType, qualityArgument);
+          }).then(function (blob) {
+            formData.append(formName, blob, fileName);
+            return blob;
+          });
+        }(fileName));
       }
       return results;
     }();

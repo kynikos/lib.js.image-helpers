@@ -45,6 +45,7 @@ module.exports.inputImagesToFormData = ({
     inputFile
     formData
     formName
+    makeFileName = (file) -> file.filename
     optsLoadImage
     mimeType
     qualityArgument
@@ -53,11 +54,13 @@ module.exports.inputImagesToFormData = ({
     optsLoadImage.canvas = true
 
     promises = for file in inputFile.files
-        loadImage(file, optsLoadImage).then((canvas) ->
-            canvasToBlob(canvas, mimeType, qualityArgument)
-        ).then((blob) ->
-            formData.append(formName, blob)
-            return blob
-        )
+        fileName = makeFileName(file)
+        do (fileName) ->
+            loadImage(file, optsLoadImage).then((canvas) ->
+                canvasToBlob(canvas, mimeType, qualityArgument)
+            ).then((blob) ->
+                formData.append(formName, blob, fileName)
+                return blob
+            )
 
     return Promise.all(promises)
