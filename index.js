@@ -6,7 +6,9 @@
   // Copyright (C) 2018-present Dario Giovannetti <dev@dariogiovannetti.net>
   // Licensed under MIT
   // https://github.com/kynikos/lib.js.image-helpers/blob/master/LICENSE
-  var blueimpLoadImage, canvasToBlob, loadImage;
+  var blueimpLoadImage, canvasToBlob, loadImage, path;
+
+  path = require('path');
 
   blueimpLoadImage = require('blueimp-load-image');
 
@@ -35,19 +37,18 @@
     });
   };
 
+  // Don't give a default value to makeFileName here
   module.exports.inputImagesToFormData = function (_ref) {
     var inputFile = _ref.inputFile,
         formData = _ref.formData,
         formName = _ref.formName,
-        _ref$makeFileName = _ref.makeFileName,
-        makeFileName = _ref$makeFileName === undefined ? function (file) {
-      return file.filename;
-    } : _ref$makeFileName,
+        forceExtension = _ref.forceExtension,
+        makeFileName = _ref.makeFileName,
         optsLoadImage = _ref.optsLoadImage,
         mimeType = _ref.mimeType,
         qualityArgument = _ref.qualityArgument;
 
-    var file, fileName, promises;
+    var fPath, file, fileName, promises;
     // canvasToBlob requires a canvas
     optsLoadImage.canvas = true;
     promises = function () {
@@ -56,7 +57,14 @@
       results = [];
       for (i = 0, len = ref.length; i < len; i++) {
         file = ref[i];
-        fileName = makeFileName(file);
+        if (makeFileName) {
+          fileName = makeFileName(file);
+        } else if (forceExtension) {
+          fPath = path.parse(file.name);
+          fileName = fPath.name + '.' + forceExtension;
+        } else {
+          fileName = file.filename;
+        }
         results.push(function (fileName) {
           return loadImage(file, optsLoadImage).then(function (canvas) {
             return canvasToBlob(canvas, mimeType, qualityArgument);

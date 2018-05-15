@@ -3,6 +3,8 @@
 # Licensed under MIT
 # https://github.com/kynikos/lib.js.image-helpers/blob/master/LICENSE
 
+path = require('path')
+
 blueimpLoadImage = require('blueimp-load-image')
 
 # https://github.com/blueimp/JavaScript-Canvas-to-Blob
@@ -45,7 +47,9 @@ module.exports.inputImagesToFormData = ({
     inputFile
     formData
     formName
-    makeFileName = (file) -> file.filename
+    forceExtension
+    # Don't give a default value to makeFileName here
+    makeFileName
     optsLoadImage
     mimeType
     qualityArgument
@@ -54,7 +58,14 @@ module.exports.inputImagesToFormData = ({
     optsLoadImage.canvas = true
 
     promises = for file in inputFile.files
-        fileName = makeFileName(file)
+        if makeFileName
+            fileName = makeFileName(file)
+        else if forceExtension
+            fPath = path.parse(file.name)
+            fileName = fPath.name + '.' + forceExtension
+        else
+            fileName = file.filename
+
         do (fileName) ->
             loadImage(file, optsLoadImage).then((canvas) ->
                 canvasToBlob(canvas, mimeType, qualityArgument)
