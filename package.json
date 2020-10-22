@@ -12,7 +12,7 @@
     "image manipulation"
   ],
   "scripts": {
-    "compile": "coffee --compile --transpile index.coffee"
+    "compile": "./node_modules/.bin/coffee --compile --transpile index.coffee"
   },
   "dependencies": {
     "blueimp-canvas-to-blob": "^3.14.0",
