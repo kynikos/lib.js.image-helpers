@@ -15,14 +15,14 @@
     "compile": "./node_modules/.bin/coffee --compile --transpile index.coffee"
   },
   "dependencies": {
-    "blueimp-canvas-to-blob": "^3.14.0",
-    "blueimp-load-image": "^2.19.0"
+    "blueimp-canvas-to-blob": "^3.28.0",
+    "blueimp-load-image": "^5.14.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "coffeelint": "^2.1.0",
-    "coffeescript": "^2.3.0"
+    "coffeescript": "^2.5.1"
   },
   "babel": {
     "presets": [
